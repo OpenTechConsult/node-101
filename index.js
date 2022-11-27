@@ -1,42 +1,17 @@
-const fs = require('fs')
-const path = require('path')
+const { readFile } = require('node:fs/promises')
+const { join } = require('node:path')
 
-fs.readFile(path.join(__dirname, 'files', 'starter.txt'), 'utf8', (err, data) => {
-    if (err) {
-        throw err
+const fileOps = async () => {
+    try {
+        const filePath = join(__dirname, 'files', 'starter.txt')
+        const data = await readFile(filePath, { encoding: 'utf8' })
+        console.log(data)
+    } catch (err) {
+        console.error(err)
     }
-    console.log(data.toString())
-})
+}
 
-
-console.log('Hello....')
-
-fs.writeFile(path.join(__dirname, 'files', 'reply.txt'), 'Nice to meet you', (err) => {
-    if (err) {
-        throw err
-    }
-
-    console.log('Write complete')
-
-    fs.appendFile(path.join(__dirname, 'files', 'reply.txt'), '\n\nYes it is.', (err) => {
-        if (err) {
-            throw err
-        }
-        console.log('Append complete')
-
-        // rename the file
-        fs.rename(path.join(__dirname, 'files', 'reply.txt'),
-            path.join(__dirname, 'files', 'newReply.txt'),
-            (err) => {
-                if (err) {
-                    throw err
-                }
-                console.log('Rename complete')
-            })
-    })
-})
-
-
+fileOps()
 
 
 // exit on uncaught errors
