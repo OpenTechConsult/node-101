@@ -21,7 +21,9 @@ const { add, sub, mul, div } = require('./math')
 // console.log(path.extname(__filename))
 // console.log(path.parse(__filename))
 
-console.log(add(2, 3))
-console.log(sub(2, 3))
-console.log(mul(2, 3))
-console.log(div(2, 3))
+// console.log(add(2, 3))
+// console.log(sub(2, 3))
+// console.log(mul(2, 3))
+// console.log(div(2, 3))
+
+// 6- Missing some JS like APIs like fetch
