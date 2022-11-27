@@ -17,14 +17,15 @@ fs.writeFile(path.join(__dirname, 'files', 'reply.txt'), 'Nice to meet you', (er
     }
 
     console.log('Write complete')
+
+    fs.appendFile(path.join(__dirname, 'files', 'reply.txt'), '\n\nYes it is.', (err) => {
+        if (err) {
+            throw err
+        }
+        console.log('Append complete')
+    })
 })
 
-fs.appendFile(path.join(__dirname, 'files', 'test.txt'), 'Testing text', (err) => {
-    if (err) {
-        throw err
-    }
-    console.log('Append complete')
-})
 
 
 
