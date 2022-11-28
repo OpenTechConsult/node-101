@@ -18,14 +18,20 @@ const server = http.createServer((req, res) => {
 
     let filePath
 
-    if (req.url === '/' || req.url === 'index.html') {
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'text/html')
-        filePath = path.join(__dirname, 'views', 'index.html')
-        fs.readFile(filePath, 'utf8', (err, data) => {
-            res.end(data)
-        })
+    switch (req.url) {
+        case '/':
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'text/html')
+            filePath = path.join(__dirname, 'views', 'index.html')
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                res.end(data)
+            })
+            break
+
+        default:
+            break
     }
+
 })
 
 // launch the server by listening to the specified port
