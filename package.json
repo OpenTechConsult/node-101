@@ -1,0 +1,27 @@
+{
+  "name": "node101",
+  "version": "1.0.0",
+  "description": "Node.js full course for beginners - Complete All in one tutorial guide",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenTechConsult/node-101.git"
+  },
+  "author": "Elom Atsou Agboka <opentech.consult@gmail.com> (https://github.com/OpenTechConsult)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OpenTechConsult/node-101/issues"
+  },
+  "homepage": "https://github.com/OpenTechConsult/node-101#readme",
+  "dependencies": {
+    "date-fns": "^2.29.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
