@@ -5,6 +5,9 @@ const express = require('express')
 
 const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
+const subDirRouter = require('./routes/subdir')
+const rootRouter = require('./routes/root')
+
 
 const PORT = process.env.PORT || 3500
 
@@ -36,47 +39,13 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 // serve static files
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/', express.static(path.join(__dirname, 'public')))
+app.use('/subdir', express.static(path.join(__dirname, 'public')))
 
-app.get('^/$|/index(.html)?', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'))
-})
-
-app.get('/new-page(.html)?', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'new-page.html'))
-})
+app.use('/', rootRouter)
+app.use('/subdir', subDirRouter)
 
 
-app.get('/old-page(.html)?', (req, res) => {
-    res.redirect(301, '/new-page.html')
-})
-
-// chaining handler functions
-app.get('/hello(.html)?', (req, res, next) => {
-    console.log('attempted to load hello.html')
-    next()
-}, (err, res) => {
-    res.send('Hello World')
-})
-
-// chaining route handlers
-const one = (req, res, next) => {
-    console.log('one')
-    next()
-}
-
-const two = (req, res, next) => {
-    console.log('two')
-    next()
-}
-
-const three = (req, res, next) => {
-    console.log('three')
-    res.send('finished')
-}
-
-
-app.get('/chain(.html)?', [one, two, three])
 
 app.all('/*', (req, res) => {
     res.status(404)
