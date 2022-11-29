@@ -8,8 +8,8 @@ const { v4: uuid } = require('uuid')
 const logEvents = async (message, logName) => {
     const dateTime = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`
     const logItem = `${dateTime}\t${uuid()}\t${message}\n`
-    const logFile = join(__dirname, 'logs', logName)
-    const logDir = join(__dirname, 'logs')
+    const logFile = join(__dirname, '..', 'logs', logName)
+    const logDir = join(__dirname, '..', 'logs')
     console.log(logItem)
     try {
         if (!existsSync(logDir)) {
@@ -22,4 +22,10 @@ const logEvents = async (message, logName) => {
     }
 }
 
-module.exports = logEvents
+const logger = (req, res, next) => {
+    logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`, 'reqLog.txt')
+    console.log(`${req.method}\t${req.path}`)
+    next()
+}
+
+module.exports = { logger, logEvents }

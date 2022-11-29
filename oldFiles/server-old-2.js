@@ -4,7 +4,7 @@ const fs = require('node:fs')
 const fsPromises = require('node:fs/promises')
 const EventEmitter = require('node:events')
 
-const logEvents = require('../logEvents')
+const logEvents = require('../middleware/logEvents')
 
 // define the port on which the web server will listen to
 const PORT = process.env.PORT || 3500

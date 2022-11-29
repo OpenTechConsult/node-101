@@ -2,14 +2,19 @@ const path = require('node:path')
 
 const express = require('express')
 
+const { logger } = require('./middleware/logEvents')
+
 const PORT = process.env.PORT || 3500
 
 const app = express()
 
+//custom middleware logger
+app.use(logger)
+
 // built-in middleware to handle urlencoded data
 // in other word, form data
 // 'content-type: application/x-www-form-urlencoded'
-app.use(express.urlencoded({ extended: false}))
+app.use(express.urlencoded({ extended: false }))
 
 // built-in middleware for json
 app.use(express.json())
