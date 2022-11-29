@@ -6,9 +6,12 @@ const PORT = process.env.PORT || 3500
 
 const app = express()
 
-app.get('/', (req, res) => {
-    // res.sendFile('./views/index.html', { root: __dirname})
+app.get('^/$|/index(.html)?', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
+})
+
+app.get('/new-page(.html)?', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'new-page.html'))
 })
 
 
