@@ -19,6 +19,14 @@ app.get('/old-page(.html)?', (req, res) => {
     res.redirect(301, '/new-page.html')
 })
 
+// chaining handler functions
+app.get('/hello(.html)?', (req, res, next) => {
+    console.log('attempted to load hello.html')
+    next()
+}, (err, res) => {
+    res.send('Hello World')
+})
+
 app.get('/*', (req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
 })
