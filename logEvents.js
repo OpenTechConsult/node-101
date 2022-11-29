@@ -5,10 +5,10 @@ const { join } = require('node:path')
 const { format } = require('date-fns')
 const { v4: uuid } = require('uuid')
 
-const logEvents = async (message) => {
+const logEvents = async (message, logName) => {
     const dateTime = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`
     const logItem = `${dateTime}\t${uuid()}\t${message}\n`
-    const logFile = join(__dirname, 'logs', 'eventLog.txt')
+    const logFile = join(__dirname, 'logs', logName)
     const logDir = join(__dirname, 'logs')
     console.log(logItem)
     try {
