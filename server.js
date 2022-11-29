@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3500
 const app = express()
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.sendFile('./views/index.html', { root: __dirname})
 })
 
 
