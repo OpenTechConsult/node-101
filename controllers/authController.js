@@ -1,4 +1,10 @@
+const path = require('node:path')
+const fsPromises = require('node:fs/promises')
+
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+
+require('dotenv').config()
 
 const users = require('../model/users.json')
 
@@ -26,7 +32,33 @@ const handleLogin = async (req, res) => {
     if (match) {
         // in the future create a JWT to send to use with the other routes
         // we want protected in our API
-        res.json({ "success": `User ${user} is logged in` })
+        // create accessToken
+        const accessToken = jwt.sign(
+            {
+                "username": foundUser.username
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '60s' }
+        )
+        // create refresh token
+        const refreshToken = jwt.sign(
+            {
+                "username": foundUser.username
+            },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '1d' }
+        )
+
+        // saving refreshToken with current user
+        const otherUsers = usersDB.users.filter(person => person.username !== foundUser.username)
+        const currentUser = { ...foundUser, refreshToken }
+        usersDB.setUsers([...otherUsers, currentUser])
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', 'model', 'users.json'),
+            JSON.stringify(usersDB.users)
+        )
+        res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.json({ accessToken })
     } else {
         res.sendStatus(401)
     }
