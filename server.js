@@ -7,6 +7,7 @@ const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
 const subDirRouter = require('./routes/subdir')
 const rootRouter = require('./routes/root')
+const employeeRouter = require('./routes/api/employees')
 
 
 const PORT = process.env.PORT || 3500
@@ -44,6 +45,7 @@ app.use('/subdir', express.static(path.join(__dirname, 'public')))
 
 app.use('/', rootRouter)
 app.use('/subdir', subDirRouter)
+app.use('/employees', employeeRouter)
 
 
 
