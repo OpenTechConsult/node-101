@@ -8,6 +8,8 @@ const corsOptions = require('./config/corsOptions')
 const errorHandler = require('./middleware/errorHandler')
 const rootRouter = require('./routes/root')
 const employeeRouter = require('./routes/api/employees')
+const registerRouter = require('./routes/register')
+const authRouter = require('./routes/auth')
 
 
 const PORT = process.env.PORT || 3500
@@ -31,6 +33,8 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', rootRouter)
 app.use('/employees', employeeRouter)
+app.use('/register', registerRouter)
+app.use('/auth', authRouter)
 
 
 
