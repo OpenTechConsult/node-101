@@ -30,15 +30,21 @@ const handleLogin = async (req, res) => {
     // evaluate password
     const match = await bcrypt.compare(password, foundUser.password)
     if (match) {
+        //grab the role that we put in our users.json file
+        const roles = Object.values(foundUser.roles)
+        console.log(roles)
         // in the future create a JWT to send to use with the other routes
         // we want protected in our API
         // create accessToken
         const accessToken = jwt.sign(
             {
-                "username": foundUser.username
+                "UserInfo": {
+                    "username": foundUser.username,
+                    "roles": roles
+                }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30s' }
+            { expiresIn: '60s' }
         )
         // create refresh token
         const refreshToken = jwt.sign(
