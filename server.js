@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const express = require('express')
 
 const { logger } = require('./middleware/logEvents')
+const credentials = require('./middleware/credentials')
 const corsOptions = require('./config/corsOptions')
 const errorHandler = require('./middleware/errorHandler')
 const rootRouter = require('./routes/root')
@@ -22,6 +23,10 @@ const app = express()
 
 //custom middleware logger
 app.use(logger)
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials)
 
 // cross origin resource sharing
 app.use(cors(corsOptions))
