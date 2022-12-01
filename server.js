@@ -1,6 +1,7 @@
 const path = require('node:path')
 
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 const express = require('express')
 
 const { logger } = require('./middleware/logEvents')
@@ -10,6 +11,8 @@ const rootRouter = require('./routes/root')
 const employeeRouter = require('./routes/api/employees')
 const registerRouter = require('./routes/register')
 const authRouter = require('./routes/auth')
+const verifyJWT = require('./middleware/verifyJWT')
+const refreshRouter = require('./routes/refresh')
 
 
 const PORT = process.env.PORT || 3500
@@ -28,13 +31,19 @@ app.use(express.urlencoded({ extended: false }))
 // built-in middleware for json
 app.use(express.json())
 
+// middleware for cookies
+app.use(cookieParser())
+
 // serve static files
 app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', rootRouter)
-app.use('/employees', employeeRouter)
 app.use('/register', registerRouter)
 app.use('/auth', authRouter)
+app.use('/refresh', refreshRouter)
+
+app.use(verifyJWT)
+app.use('/employees', employeeRouter)
 
 
 
