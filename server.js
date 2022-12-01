@@ -1,23 +1,34 @@
+require('dotenv').config()
 const path = require('node:path')
 
+// third party modules
 const cors = require('cors')
-const cookieParser = require('cookie-parser')
 const express = require('express')
+const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
 
+// importing middlewares
+const verifyJWT = require('./middleware/verifyJWT')
 const { logger } = require('./middleware/logEvents')
 const credentials = require('./middleware/credentials')
-const corsOptions = require('./config/corsOptions')
 const errorHandler = require('./middleware/errorHandler')
+
+// importing routers
 const rootRouter = require('./routes/root')
-const employeeRouter = require('./routes/api/employees')
-const registerRouter = require('./routes/register')
 const authRouter = require('./routes/auth')
-const verifyJWT = require('./middleware/verifyJWT')
-const refreshRouter = require('./routes/refresh')
+const connectDB = require('./config/dbConn')
 const logoutRouter = require('./routes/logout')
+const refreshRouter = require('./routes/refresh')
+const registerRouter = require('./routes/register')
+const corsOptions = require('./config/corsOptions')
+const employeeRouter = require('./routes/api/employees')
 
 
+// constants
 const PORT = process.env.PORT || 3500
+
+// connect to MongoDB
+connectDB()
 
 const app = express()
 
@@ -43,6 +54,7 @@ app.use(cookieParser())
 // serve static files
 app.use('/', express.static(path.join(__dirname, 'public')))
 
+// routing
 app.use('/', rootRouter)
 app.use('/register', registerRouter)
 app.use('/auth', authRouter)
@@ -69,4 +81,7 @@ app.all('/*', (req, res) => {
 
 app.use(errorHandler)
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB')
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+})

@@ -4,7 +4,6 @@ const fsPromises = require('node:fs/promises')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-require('dotenv').config()
 
 const users = require('../model/users.json')
 
