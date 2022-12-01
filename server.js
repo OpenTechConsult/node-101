@@ -13,6 +13,7 @@ const registerRouter = require('./routes/register')
 const authRouter = require('./routes/auth')
 const verifyJWT = require('./middleware/verifyJWT')
 const refreshRouter = require('./routes/refresh')
+const logoutRouter = require('./routes/logout')
 
 
 const PORT = process.env.PORT || 3500
@@ -41,6 +42,7 @@ app.use('/', rootRouter)
 app.use('/register', registerRouter)
 app.use('/auth', authRouter)
 app.use('/refresh', refreshRouter)
+app.use('/logout', logoutRouter)
 
 app.use(verifyJWT)
 app.use('/employees', employeeRouter)
